@@ -15,16 +15,16 @@ import com.pjff.videogamesdb.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-    //Paso 1.0 ,Agregamos el binding
+    //Paso 1.0 ,Agregamos el binding.
     private lateinit var binding: ActivityMainBinding
 
-    //Paso 1.2,El listado de juegos que va a tener y la ponemos una lista vacía
+    //Paso 1.2,El listado de juegos que va a tener y la ponemos una lista vacía.
     private var games: List<GameEntity> = emptyList()
 
     //Paso 1.3, Para que nos instancie nuestro repositorio
     private lateinit var repository: GameRepository
 
-    //Instanciamos el adapter
+    //Paso 1.50,Instanciamos el adapter.
     private lateinit var gameAdapter: GameAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,18 +36,22 @@ class MainActivity : AppCompatActivity() {
         //Paso 1.4,Para instanciar el repositorio
         repository = (application as VideogamesDBApp).repository
 
-        //Instanciamos el GameAdapter ,pero le pasamos la funcion Lambda del Game Dialog
+        /*Paso 1.51,Instanciamos el GameAdapter ,pero le pasamos la función
+        Lambda del Game Dialog*/
         gameAdapter = GameAdapter(){ game ->
-            //Le pasamos la funcion gameClicked
+            //Paso 1.59,Le pasamos la función gameClicked
             gameClicked(game)
         }
 
-        //binding.rvGames.layoutManager = LinearLayoutManager(this@MainActivity)
-        //binding.rvGames.adapter = gameAdapter
+        /*
+          Paso 1.52
+          binding.rvGames.layoutManager = LinearLayoutManager(this@MainActivity)
+          binding.rvGames.adapter = gameAdapter
+          Instanciamos el game adapter
+          gameAdapter =GameAdapter ()
+         */
 
-        //Instanciamos el game adapter
-        //gameAdapter =GameAdapter ()
-
+        //Otra forma, Paso 1.53
         binding.rvGames.apply {
             //Mandamos a llamar el RecyclerView
             layoutManager = LinearLayoutManager(this@MainActivity)
@@ -57,17 +61,16 @@ class MainActivity : AppCompatActivity() {
         //Paso 1.9, se ejecuta la funcion
         updateUI()
     }
-//Paso 1.5 ,Creamos nuestra función para actualizar la UI,aqui se pone la Recicle View.
+    //Paso 1.5 ,Creamos nuestra función para actualizar la UI,aqui se pone la Recicle View.
     private fun updateUI() {
         /*
-        Paso 1.6
-
-        El alcance de ciclo de vida de la app : lifecycleScope
-        Alcance de corutina y le ponemos un ciclo de vida,entonces,
-        cuando el main activity se destruya , en el ciclo de vida esta se va a cancelar.
+          Paso 1.6
+          El alcance de ciclo de vida de la app : lifecycleScope
+          Alcance de corutina y le ponemos un ciclo de vida,entonces,
+          cuando el main activity se destruya , en el ciclo de vida esta se va a cancelar.
         */
         lifecycleScope.launch {
-            /*Paso 1.7,Conseguimos el listado de juegos, getAll Games es un funcion suspendida
+            /*Paso 1.7,Conseguimos el listado de juegos, getAllGames es un función suspendida
             en la parte izquierda de la pantalla vemos una flecha que significa eso*/
             games = repository.getAllGames()
 
@@ -80,7 +83,8 @@ class MainActivity : AppCompatActivity() {
                 //No hay registros
                 binding.tvSinRegistros.visibility = View.VISIBLE
             }
-            //Aqui ponemos el gameAdapter y ya podemos ver el recycler view
+            /*Paso 1.54,Aquí ponemos el gameAdapter y ya podemos ver el
+             recycler view(los juegos en pantalla)*/
             gameAdapter.updateList(games)
         }
     }
@@ -88,13 +92,12 @@ class MainActivity : AppCompatActivity() {
 
     //Paso 1.21,Creamos la función del main activity XML
     fun click(view: View) {
-        /*Paso 1.33,aquí instanciamos.
-        //Aquí le estamos pasando las lambdas*/
-        val dialog = GameDialog( updateUI = {
-
-            //Le pasamos la lambda UpdateUi  de GameDialogy la lambda del mensaje
-
-            updateUI()
+        //Paso 1.33,aquí instanciamos.
+        val dialog = GameDialog(
+            //Paso 1.56,Aquí le estamos pasando las lambdas
+            updateUI = {
+                //Le pasamos la lambda UpdateUi  de GameDialogy la lambda del mensaje.
+                updateUI()
         }, message = { text ->
             message(text)
        })
@@ -102,22 +105,22 @@ class MainActivity : AppCompatActivity() {
         dialog.show(supportFragmentManager, "dialog")
     }
 
-    //Cuando le hacen click al juego
+    //Paso 1.60,Cuando le hacen click al juego
     private fun gameClicked(game: GameEntity){
         /*
-
         Toast.makeText(this, "Click en el juego con id: ${game.id}", Toast.LENGTH_SHORT).show()
-        Se lo mandamos en falso ,para que se generen los botones con actualizar
-        El primer game se refiere al nombre del parametro y el siguiente game es el que me llega
 
-        */
+        Paso 1.65,Se lo mandamos en falso ,para que se generen los botones con actualizar
+        El primer game se refiere al nombre del párametro que esta en mi GameDialog y
+        el siguiente game es el que me llega por párametro. */
         val dialog = GameDialog(newGame = false, game = game, updateUI = {
-            /*Le mandamos falso, para que nos muestre los botones desactivados
+            /*Paso 1.66,Le mandamos falso, para que nos muestre los botones desactivados
             y mostramos la updateUI*/
             updateUI()
         }, message = { text ->
             message(text)
         })
+        //Paso 1.67
         dialog.show(supportFragmentManager, "dialog")
     }
 

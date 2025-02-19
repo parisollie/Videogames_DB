@@ -20,22 +20,23 @@ import java.io.IOException
 
 //Paso 1.23, creamos el GameDialog
 class GameDialog(
-    /*
-       Paso 1.43
-       Cuando instancie un objeto le pasare un valor por defecto,
-       para que al dar click no los enseñe y se pinte.
-    */
+    //Paso 1.61
     private val newGame: Boolean = true,
     //Paso 1.44,Sino pasa nada tu generate tu propio game entity.
     private var game: GameEntity = GameEntity(
-        /*-------------------------------------------------------------
+        /*
+            Paso 1.43
+           Cuando instancie un objeto le pasare un valor por defecto,
+           para que al dar click no los enseñe y se pinte.
+
+         -------------------------------------------------------------
                   AQUI AGREGAREMOS CODIGO PARA LA PRACTICA 1
          -------------------------------------------------------------*/
         title = "",
         genre = "",
         developer = ""
     ),
-    //Aquí recibo las lamdas , no recibe nada,la primera no regrese nada.
+    //Paso 1.55,Aquí recibo las lamdas ,como no recibe nada,la primera no regrese nada.
     private val updateUI: () -> Unit,
     //Le mandamos otra lambda para que se imprima el mensaje de si quieres eliminar el juego
     private val message: (String) -> Unit
@@ -71,7 +72,7 @@ class GameDialog(
         builder = AlertDialog.Builder(requireContext())
 
         /*
-           //Aqui ponemos los valores con lo que llegan ,Damos por hecho que ya tiene algo
+           Paso 1.68,Aqui ponemos los valores con lo que llegan ,Damos por hecho que ya tiene algo
            binding.tietTitle.setText(game.title)
            binding.tietGenre.setText(game.genre)
            binding.tietDeveloper.setText(game.developer)
@@ -80,13 +81,14 @@ class GameDialog(
         /*-------------------------------------------------------------
                   AQUI AGREGAREMOS CODIGO PARA LA PRACTICA 1
          -------------------------------------------------------------*/
-        //Paso 1.32,También lo podemos hacer con el apply.
+
+        //Paso 1.69,También lo podemos hacer con el apply.
         binding.apply {
             tietTitle.setText(game.title)
             tietGenre.setText(game.genre)
             tietDeveloper.setText(game.developer)
         }
-        //Paso 1.33,Si la banderita esta en true
+        //Paso 1.63,Si la banderita esta en true
         dialog = if (newGame) {
             buildDialog("Guardar", "Cancelar", {
 
@@ -115,7 +117,7 @@ class GameDialog(
                     */
                     Toast.makeText(requireContext(),getString(R.string.juego_guardado),Toast.LENGTH_SHORT).show()
 
-                    //Actualizar la UI
+                    //Paso 1.55,Actualizar la UI
                     updateUI()
 
                 } catch (e: IOException) {
@@ -127,7 +129,7 @@ class GameDialog(
                 //Cancelar
             })
         } else {
-            //Y sino lo que mostrará en los botones será esto
+            //Paso -1.64 Y sino lo que mostrará en los botones será esto
             buildDialog("Actualizar", "Borrar", {
 
                 /*-------------------------------------------------------------
@@ -150,7 +152,10 @@ class GameDialog(
                     //Esta harcodeado
                     message("Juego actualizado exitosamente")
 
-                    //Actualizar la UI, para que cuando se agregue un juego se ponte en el recycler view
+                    /*
+                      Paso 1.57 Actualizar la UI, para que cuando se agregue un juego se
+                      ponte en el recycler view
+                     */
                     updateUI()
 
                 } catch (e: IOException) {
@@ -192,7 +197,8 @@ class GameDialog(
             })
         }
 
-        //Le pasamos la lista
+        //Paso 1.32, lo corte
+        //Paso 1.33, Le pasamos la lista
         /*dialog = builder.setView(binding.root)
         //El titulo que quiero que tenga el juego
             .setTitle("Juego")
@@ -322,7 +328,8 @@ class GameDialog(
             .isNotEmpty() && binding.tietDeveloper.text.toString().isNotEmpty())
 
 
-    //Funcion para crear lo que quiero que tengan los botones del diálogo que se generen
+    /*1.62,Función para crear lo que quiero que tengan los botones del diálogo que se generen
+    se hace de la misma forma que el de arriba, tienene la misma estructura*/
     private fun buildDialog(
         //le pasamos 4 parametros
         btn1Text: String,
@@ -337,6 +344,7 @@ class GameDialog(
                 //Acción para el botón positivo
                 positiveButton()
             })
+            //_ esas cosas significa que no se usan ,como el de arriba nos marcan lineas amarillas
             .setNegativeButton(btn2Text) { _, _ ->
                 //Acción para el botón negativo
                 negativeButton()

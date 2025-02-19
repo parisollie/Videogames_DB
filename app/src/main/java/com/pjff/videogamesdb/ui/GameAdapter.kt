@@ -7,7 +7,8 @@ import com.pjff.videogamesdb.data.db.model.GameEntity
 import com.pjff.videogamesdb.databinding.GameElementBinding
 
 
-//Paso 1.11,Le pasamos un parámetro al Gameadapter y le pasamos una lambda
+/*Paso 1.11,Le pasamos un parámetro al Gameadapter
+Paso 1.58,(private val onGameClick: (GameEntity,le pasamos una lambda GameEntity*/
 class GameAdapter(private val onGameClick: (GameEntity) -> Unit): RecyclerView.Adapter<GameAdapter.ViewHolder>(){
 
     //Paso 1.13,Aquí estan los juegos que usara mi adapter
@@ -69,8 +70,9 @@ class GameAdapter(private val onGameClick: (GameEntity) -> Unit): RecyclerView.A
         //Paso 1.19
         holder.itemView.setOnClickListener {
             /*
+              Paso 1.58,
               Aquí va el click del elemento, le enviamos la lambda,para cuando instancie mi adapter
-              sepa a cual jueguito se le hizo click
+              sepa a cual jueguito se le hizo click.
             */
             onGameClick(games[position])
 
