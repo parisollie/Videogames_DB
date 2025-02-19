@@ -15,13 +15,13 @@ import com.pjff.videogamesdb.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-    //Agreamos el binding
+    //Paso 1.0 ,Agregamos el binding
     private lateinit var binding: ActivityMainBinding
 
-    //El listado de juegos que va a tener y la ponemos vacía
+    //Paso 1.2,El listado de juegos que va a tener y la ponemos una lista vacía
     private var games: List<GameEntity> = emptyList()
 
-    //Para que nos instancie nuestro repositorio
+    //Paso 1.3, Para que nos instancie nuestro repositorio
     private lateinit var repository: GameRepository
 
     //Instanciamos el adapter
@@ -29,11 +29,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //Para tener view binding de cajon
+        //Paso 1.1,Para tener view binding de cajón
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //Para instanciar el repositorio
+        //Paso 1.4,Para instanciar el repositorio
         repository = (application as VideogamesDBApp).repository
 
         //Instanciamos el GameAdapter ,pero le pasamos la funcion Lambda del Game Dialog
@@ -54,22 +54,27 @@ class MainActivity : AppCompatActivity() {
             //Le ponemos el adapater
             adapter = gameAdapter
         }
-
+        //Paso 1.9, se ejecuta la funcion
         updateUI()
     }
-//Creamos nuestra funcion para actualizar la UI,aqui se pone la Recicle View
+//Paso 1.5 ,Creamos nuestra función para actualizar la UI,aqui se pone la Recicle View.
     private fun updateUI() {
-    //El alcance de vida de la app
-    /*Alcance de ecorutina y le ponemos un ciclo de vida
-    * cuando el main activity se destruya , se va a cancelar */
+        /*
+        Paso 1.6
+
+        El alcance de ciclo de vida de la app : lifecycleScope
+        Alcance de corutina y le ponemos un ciclo de vida,entonces,
+        cuando el main activity se destruya , en el ciclo de vida esta se va a cancelar.
+        */
         lifecycleScope.launch {
-            //Conseguimos el listado de juegos
+            /*Paso 1.7,Conseguimos el listado de juegos, getAll Games es un funcion suspendida
+            en la parte izquierda de la pantalla vemos una flecha que significa eso*/
             games = repository.getAllGames()
 
-            //Si encontro un juego,por lo menos hay un registro
+            //Paso 1.8,Si encontró un juego,por lo menos hay un registro
             if (games.isNotEmpty()) {
-                //Hay por lo menos un registro,entonces la cajita de texto no se muestra
-                //No hay registros !
+                /*Hay por lo menos un registro,entonces la cajita de texto no se muestra
+                No hay registros -> !*/
                 binding.tvSinRegistros.visibility = View.INVISIBLE
             } else {
                 //No hay registros
@@ -79,8 +84,9 @@ class MainActivity : AppCompatActivity() {
             gameAdapter.updateList(games)
         }
     }
-    //cremaos la funcion del main activity xml
 
+
+    //Creamos la funcion del main activity XML
     fun click(view: View) {
         //Aqui le estamos pasando las lambdas
         val dialog = GameDialog( updateUI = {
@@ -95,12 +101,16 @@ class MainActivity : AppCompatActivity() {
 
     //Cuando le hacen click al juego
     private fun gameClicked(game: GameEntity){
-        //Toast.makeText(this, "Click en el juego con id: ${game.id}", Toast.LENGTH_SHORT).show()
-        //Se lo mandamos en falso ,para que se generen los botones con actualizar
-        //El primer game se refiere al nombre del parametro y el siguiente game es el que me llega
+        /*
+
+        Toast.makeText(this, "Click en el juego con id: ${game.id}", Toast.LENGTH_SHORT).show()
+        Se lo mandamos en falso ,para que se generen los botones con actualizar
+        El primer game se refiere al nombre del parametro y el siguiente game es el que me llega
+
+        */
         val dialog = GameDialog(newGame = false, game = game, updateUI = {
-            //Le mandamos falso, para que nos muestre los botones desactivados
-            //y mostramos la updateUI
+            /*Le mandamos falso, para que nos muestre los botones desactivados
+            y mostramos la updateUI*/
             updateUI()
         }, message = { text ->
             message(text)
@@ -110,7 +120,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun message(text: String){
         Snackbar.make(binding.cl, text, Snackbar.LENGTH_SHORT)
-                //esta harcodeado 
+            //esta harcodeado
             .setTextColor(Color.parseColor("#FFFFFF"))
             .setBackgroundTint(Color.parseColor("#9E1734"))
             .show()

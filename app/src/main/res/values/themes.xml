@@ -3,7 +3,8 @@
     <style name="Base.Theme.VideogamesDB" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <!--Le agregamos nuestro color primario-->
+
+        <!--Paso 1, Le agregamos nuestro color primario-->
         <item name="colorPrimary">#FFA60808</item>
     </style>
 

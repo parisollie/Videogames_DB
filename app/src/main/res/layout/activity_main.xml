@@ -8,7 +8,13 @@
     android:background="#EEEEEE"
     android:fitsSystemWindows="true"
     tools:context=".ui.MainActivity">
-<!-- Esto es para ir metiendo nuestros elementos a la base de datos-->
+
+
+    <!--Paso 4, pegamos el archivo.
+
+    Esto es para ir metiendo nuestros elementos a la base de datos-->
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvGames"
         android:layout_width="match_parent"

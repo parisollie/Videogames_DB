@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    //Agregamos esto
+    //Agregamos el plugin de kpt
     id 'kotlin-kapt'
 }
 
@@ -32,7 +32,7 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    //Le ponemos esto
+    //Ponemos el binding
     buildFeatures{
         viewBinding true
     }
@@ -51,6 +51,7 @@ dependencies {
     //Room y ponemos las implementaciones de room
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+
     //Corrutinas con alcance lifecycle
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
 

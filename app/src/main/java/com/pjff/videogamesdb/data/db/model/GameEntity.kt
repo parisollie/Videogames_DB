@@ -5,20 +5,24 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.pjff.videogamesdb.util.Constants
 
-//Le pasamos las tablas y los datos a capturar
-@Entity(tableName = Constants.DATABASE_GAME_TABLE)//así yo quiero que se llame mi tabla y no como
-//Game entity
+/*Le pasamos la etiqueta entity , al entity le pasa una tamableName
+y el nombre de la tabla de nuestro archivo de Constants.*/
+@Entity(tableName = Constants.DATABASE_GAME_TABLE)
+//Paso 6, creamos nuestra entidad Game entity
 data class GameEntity(
+
+    //------------------- LOS CAMPOS DE NUESTRA ENTIDAD -------------------------------
+    //Paso 7, pongo mis varibales
 
     //Con Room le ponemos el primaryKey
     @PrimaryKey(autoGenerate = true)
     //Le decimos que se guarde como game_id
     @ColumnInfo(name = "game_id")
-    //------------------- LOS CAMPOS DE NUESTRA ENTIDAD -------------------------------
-
-    //Este id quiero que se use como llave primaria,empieza en 0,porque se va autoincrementar
+    /*Este id quiero que se use como llave primaria, empieza en 0,
+    porque se va autoincrementar*/
     val id: Long = 0,
-    //Clolumn info significa que es nuestra columna
+
+    //ColumnInfo -> significa que es nuestra columna
     @ColumnInfo(name = "game_title")
     var title: String,
 
