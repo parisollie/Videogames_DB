@@ -18,7 +18,7 @@ class GameRepository(private val gameDao: GameDao) {
         gameDao.insertGame(game)
     }
 
-    //Le pones función para pasarle estos parámetros
+    //Paso 1.46,Le pones esa función para pasarle estos parámetros.
     suspend fun insertGame(title: String, genre: String, developer: String){
         /*Le pasamos un juego
         -------------------------------------------------------------
@@ -30,15 +30,13 @@ class GameRepository(private val gameDao: GameDao) {
     //Paso 20,Regresame un list, simplifica el return con esto -> : List<GameEntity>
     suspend fun getAllGames(): List<GameEntity> = gameDao.getAllGames()
 
-    //Paso 18 funcion para actualizar
+    //Paso 18 función para actualizar
     suspend fun updateGame(game: GameEntity){
         gameDao.updateGame(game)
     }
 
-    //Paso 19, funcion para eliminar
+    //Paso 19, función para eliminar
     suspend fun deleteGame(game: GameEntity){
         gameDao.deleteGame(game)
     }
-
-
 }

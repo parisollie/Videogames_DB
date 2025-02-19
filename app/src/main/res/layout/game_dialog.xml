@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
+    <!--Paso 1.22,ponemos la plantilla-->
     <ImageView
         android:id="@+id/ivHeader"
         android:layout_width="match_parent"

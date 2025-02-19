@@ -86,11 +86,14 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    //Creamos la funcion del main activity XML
+    //Paso 1.21,Creamos la función del main activity XML
     fun click(view: View) {
-        //Aqui le estamos pasando las lambdas
+        /*Paso 1.33,aquí instanciamos.
+        //Aquí le estamos pasando las lambdas*/
         val dialog = GameDialog( updateUI = {
+
             //Le pasamos la lambda UpdateUi  de GameDialogy la lambda del mensaje
+
             updateUI()
         }, message = { text ->
             message(text)
