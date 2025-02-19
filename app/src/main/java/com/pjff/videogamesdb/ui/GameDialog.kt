@@ -38,7 +38,7 @@ class GameDialog(
     ),
     //Paso 1.55,Aquí recibo las lamdas ,como no recibe nada,la primera no regrese nada.
     private val updateUI: () -> Unit,
-    //Le mandamos otra lambda para que se imprima el mensaje de si quieres eliminar el juego
+    //Paso 1.87,Le mandamos otra lambda para que se imprima el mensaje de si quieres eliminar el juego
     private val message: (String) -> Unit
 ) : DialogFragment() {
 
@@ -70,6 +70,9 @@ class GameDialog(
 
         //Paso 1.31,Instanciamos,para ponerle mensajitos al usuario, la ventanita que sale.
         builder = AlertDialog.Builder(requireContext())
+           //Paso 1.32, termina borrando todo esto
+           // .setTitle("Juego")
+
 
         /*
            Paso 1.68,Aqui ponemos los valores con lo que llegan ,Damos por hecho que ya tiene algo
@@ -88,11 +91,12 @@ class GameDialog(
             tietGenre.setText(game.genre)
             tietDeveloper.setText(game.developer)
         }
+        //paso 1.33.2,ponemos el dialogo, aunque se termina modificando todo
         //Paso 1.63,Si la banderita esta en true
         dialog = if (newGame) {
             buildDialog("Guardar", "Cancelar", {
 
-                //Aqui le vamosa pasar las lambdas
+                //Paso 1.74,Aqui le vamosa pasar las lambdas
 
                 //**************** Create (Guardar) **********************
 
@@ -123,10 +127,11 @@ class GameDialog(
                 } catch (e: IOException) {
                     //Paso 1.49,mandamos nuestra excepción.
                     e.printStackTrace()
+                    //paso 1.88
                     message("Error al guardar el juego")
                 }
             }, {
-                //Cancelar
+                //Paso 1.75,lambda Cancelar
             })
         } else {
             //Paso -1.64 Y sino lo que mostrará en los botones será esto
@@ -136,20 +141,20 @@ class GameDialog(
                          AQUI AGREGAREMOS CODIGO PARA LA PRACTICA 1
                  -------------------------------------------------------------*/
 
-                //Les pasamos las lamdas
+                //Paso 1.7,Les pasamos la lambda de Update
 
                 //**************** Esta lambda es para el Update **********************
-
+                //Paso 177, hacemos un copy paste
                 game.title = binding.tietTitle.text.toString()
                 game.genre = binding.tietGenre.text.toString()
                 game.developer = binding.tietDeveloper.text.toString()
 
                 try {
                     lifecycleScope.launch {
-                        //Le pasamos el update
+                        //Paso 1.78,Le pasamos el update y el juego
                         repository.updateGame(game)
                     }
-                    //Esta harcodeado
+                    //Paso 1.79,Esta harcodeado
                     message("Juego actualizado exitosamente")
 
                     /*
@@ -159,28 +164,29 @@ class GameDialog(
                     updateUI()
 
                 } catch (e: IOException) {
+                    //Paso 1.80
                     e.printStackTrace()
                     message("Error al actualizar el juego")
                 }
 
             }, {
-                //**************** Esta lambda es para el Delete **********************
+                //**************** Paso 1.76 Esta lambda es para el Delete **********************
 
-                //Le mandamos un dialogo al usuario para preguntarle ,si realmente quiere eliminar
+                //Paso 1.85,Le mandamos un dialogo al usuario para preguntarle ,si realmente quiere eliminar
                 AlertDialog.Builder(requireContext())
                     .setTitle("Confirmación")
                     .setMessage("¿Realmente deseas eliminar el juego ${game.title}?")
                     .setPositiveButton("Aceptar") { _, _ ->
-                        //Si el usuario pone que si
+                        //Paso 1.81,Si el usuario pone que si
                         try {
                             lifecycleScope.launch {
-                                //aqui solo le ponemos delete game ,a diferencia del update que es lo mismo
+                                //Paso 1.82,aqui solo le ponemos delete game ,a diferencia del update que es lo mismo
                                 repository.deleteGame(game)
                             }
 
-                            //Mensajes desde lambdas
+                            //Paso 1.83,Mensajes desde lambdas
                             message("Juego eliminado exitosamente")
-                            //Actualizar la UI
+                            //Paso 1.84,Actualizar la UI
                             updateUI()
 
                         } catch (e: IOException) {
@@ -188,7 +194,8 @@ class GameDialog(
                             message("Error al eliminar el juego")
                         }
                     }
-                        //si el usuario dice que no
+                    //Paso 1.33.1, esto seria como el paso 1.33.1, pero lo termina modificando
+                        //Paso 1.86,si el usuario dice que no
                     .setNegativeButton("Cancelar") { dialog, _ ->
                         dialog.dismiss()
                     }
@@ -196,40 +203,6 @@ class GameDialog(
                     .show()
             })
         }
-
-        //Paso 1.32, lo corte
-        //Paso 1.33, Le pasamos la lista
-        /*dialog = builder.setView(binding.root)
-        //El titulo que quiero que tenga el juego
-            .setTitle("Juego")
-            //Cuando el usuario acepta cuestiones
-            //_,_ , significa que esos parametros no los usa
-            .setPositiveButton("Guardar", DialogInterface.OnClickListener { _, _ ->
-                //Guardar, cuando las cajas ya tienen algo
-                game.title = binding.tietTitle.text.toString()
-                game.genre = binding.tietGenre.text.toString()
-                game.developer = binding.tietDeveloper.text.toString()
-
-                try {
-                //le mandamos una ecorutina
-                    lifecycleScope.launch {
-                        repository.insertGame(game)
-                    }
-                //Si algo paso mal
-                //aqui ya esta sin harcodear
-                    Toast.makeText(requireContext(), getString(R.string.juego_guardado), Toast.LENGTH_SHORT).show()
-                    //Actualizar la UI
-                    updateUI()
-
-                }catch(e: IOException){
-                    e.printStackTrace()
-                    Toast.makeText(requireContext(), "Error al guardar el juego", Toast.LENGTH_SHORT).show()
-                }
-            })
-            .setNegativeButton("Cancelar", DialogInterface.OnClickListener { _, _ ->
-
-            })
-            .create()*/
 
         //Paso 1.34, regresamos el dialog
         return dialog
@@ -334,19 +307,19 @@ class GameDialog(
         //le pasamos 4 parametros
         btn1Text: String,
         btn2Text: String,
-        //Le pasamos dos lamdas con funciones
+        //Paso 1.70,Le pasamos dos lamdas con funciones
         positiveButton: () -> Unit,
         negativeButton: () -> Unit
     ): Dialog =
         builder.setView(binding.root)
             .setTitle("Juego")
             .setPositiveButton(btn1Text, DialogInterface.OnClickListener { dialog, which ->
-                //Acción para el botón positivo
+                //Paso 1.71,Acción para el botón positivo
                 positiveButton()
             })
             //_ esas cosas significa que no se usan ,como el de arriba nos marcan lineas amarillas
             .setNegativeButton(btn2Text) { _, _ ->
-                //Acción para el botón negativo
+                //Paso 1.72,Acción para el botón negativo
                 negativeButton()
             }
             .create()

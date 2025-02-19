@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     //Paso 1.2,El listado de juegos que va a tener y la ponemos una lista vacía.
     private var games: List<GameEntity> = emptyList()
 
-    //Paso 1.3, Para que nos instancie nuestro repositorio
+    //Paso 1.30, Para que nos instancie nuestro repositorio
     private lateinit var repository: GameRepository
 
     //Paso 1.50,Instanciamos el adapter.
@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         //Paso 1.1,Para tener view binding de cajón
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         //Paso 1.4,Para instanciar el repositorio
         repository = (application as VideogamesDBApp).repository
@@ -98,6 +99,7 @@ class MainActivity : AppCompatActivity() {
             updateUI = {
                 //Le pasamos la lambda UpdateUi  de GameDialogy la lambda del mensaje.
                 updateUI()
+                //paso 1.91, le ponemos el mensaje
         }, message = { text ->
             message(text)
        })
@@ -117,6 +119,7 @@ class MainActivity : AppCompatActivity() {
             /*Paso 1.66,Le mandamos falso, para que nos muestre los botones desactivados
             y mostramos la updateUI*/
             updateUI()
+            //Paso 1.89, la funcion para mandar el mensaje
         }, message = { text ->
             message(text)
         })
@@ -124,6 +127,7 @@ class MainActivity : AppCompatActivity() {
         dialog.show(supportFragmentManager, "dialog")
     }
 
+    //Paso 1.90,Función para mandar el mensaje
     private fun message(text: String){
         Snackbar.make(binding.cl, text, Snackbar.LENGTH_SHORT)
             //esta harcodeado
