@@ -13,3 +13,5 @@ This application contains the following knowledge:
 -Save and read files in Json and XML format
 
 ### The application looks like this:
+
+![03](https://github.com/user-attachments/assets/1072dc8c-2cc8-4549-8346-1af669c12a84)
